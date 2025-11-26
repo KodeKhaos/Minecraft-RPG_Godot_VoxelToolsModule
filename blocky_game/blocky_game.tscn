@@ -1,0 +1,43 @@
+[gd_scene load_steps=9 format=3 uid="uid://dtfktti54mneg"]
+
+[ext_resource type="VoxelMesherBlocky" uid="uid://c6l3pdnhmvhqp" path="res://blocky_game/blocks/mesher.tres" id="1"]
+[ext_resource type="VoxelGeneratorScript" path="res://blocky_game/generator/world_generator.tres" id="4"]
+[ext_resource type="Environment" uid="uid://d12x8vr3vwmni" path="res://blocky_game/worldenviorment.tres" id="4_bxxj4"]
+[ext_resource type="Script" uid="uid://b2sgbpc3ratxy" path="res://blocky_game/blocky_game.gd" id="5"]
+[ext_resource type="Script" uid="uid://dnl653nclnfdy" path="res://blocky_game/DayLightCicle.gd" id="6_rbe4n"]
+[ext_resource type="Script" uid="uid://cxpgxknwub8b8" path="res://blocky_game/debug_info.gd" id="8"]
+[ext_resource type="Script" uid="uid://csinpqgk03ax4" path="res://blocky_game/blocks/blocks.gd" id="12"]
+[ext_resource type="Script" uid="uid://bbfct6petonud" path="res://blocky_game/items/item_db.gd" id="13"]
+
+[node name="Game" type="Node"]
+script = ExtResource("5")
+
+[node name="Blocks" type="Node" parent="."]
+script = ExtResource("12")
+
+[node name="Items" type="Node" parent="."]
+script = ExtResource("13")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("4_bxxj4")
+
+[node name="VoxelTerrain" type="VoxelTerrain" parent="."]
+generator = ExtResource("4")
+mesher = ExtResource("1")
+gi_mode = 1
+generate_collisions = false
+run_stream_in_editor = false
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." node_paths=PackedStringArray("world_environment")]
+transform = Transform3D(-0.9956685, 0.08290989, -0.042073302, -0.08318661, -0.59231555, 0.8013998, 0.04152333, 0.801429, 0.59664685, 0, 0, 0)
+light_indirect_energy = 0.0
+shadow_enabled = true
+shadow_normal_bias = 1.0
+shadow_blur = 1.254
+script = ExtResource("6_rbe4n")
+world_environment = NodePath("../WorldEnvironment")
+
+[node name="DebugInfo" type="Node" parent="."]
+script = ExtResource("8")
+
+[node name="Players" type="Node" parent="."]

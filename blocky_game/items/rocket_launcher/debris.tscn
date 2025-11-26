@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://b6vewvt4ruc7y"]
+
+[ext_resource type="Script" uid="uid://dsbolu2x62inv" path="res://blocky_game/items/rocket_launcher/debris.gd" id="1"]
+[ext_resource type="ArrayMesh" uid="uid://cnuqylskmg82f" path="res://blocky_game/items/rocket_launcher/Untitled.mtl.obj" id="2_84ky3"]
+
+[sub_resource type="Shader" id="Shader_84ky3"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.5.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, UV);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+}
+"
+
+[sub_resource type="Gradient" id="Gradient_64cxd"]
+colors = PackedColorArray(0.39688927, 0.39688927, 0.39688924, 1, 0.3366657, 0.17782634, 0.006030326, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w7ll0"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_84ky3"]
+noise = SubResource("FastNoiseLite_w7ll0")
+color_ramp = SubResource("Gradient_64cxd")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lp6af"]
+render_priority = 0
+shader = SubResource("Shader_84ky3")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = SubResource("NoiseTexture2D_84ky3")
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_64cxd"]
+radius = 0.7
+
+[node name="Debris" type="RigidBody3D"]
+script = ExtResource("1")
+
+[node name="MeshInstance" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = ExtResource("2_84ky3")
+surface_material_override/0 = SubResource("ShaderMaterial_lp6af")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("SphereShape3D_64cxd")

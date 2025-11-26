@@ -1,0 +1,11 @@
+res://blocky_game/player/character_avatar.tscn
+res://blocky_game/blocks/voxel_library.tres
+res://blocky_game/worldenviormentshader.gdshader
+res://blocky_game/worldenviorment.tres
+res://blocky_game/new_shader.gdshader
+res://addons/zylann.voxel/shaders/lod_fade.gdshaderinc
+res://blocky_game/fog_test.gdshader
+res://multipass_generator/blocky_library.tres
+res://blocky_game/blocky_game.tscn
+res://blocky_game/player/crosshair.gdshader
+res://blocky_game/DayLightCicle.gd

@@ -1,0 +1,65 @@
+[gd_resource type="Environment" load_steps=11 format=3 uid="uid://d12x8vr3vwmni"]
+
+[ext_resource type="Shader" uid="uid://ct8tf5v814hq3" path="res://blocky_game/worldenviormentshader.gdshader" id="1_rllwe"]
+
+[sub_resource type="Curve" id="Curve_rllwe"]
+_data = [Vector2(0.3100304, 0), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_q5w2q"]
+_data = [Vector2(0.22492401, 0), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_xrfhj"]
+_data = [Vector2(0.218845, 0.008474588), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_ynnux"]
+curve_x = SubResource("Curve_rllwe")
+curve_y = SubResource("Curve_q5w2q")
+curve_z = SubResource("Curve_xrfhj")
+
+[sub_resource type="Gradient" id="Gradient_1qsgc"]
+offsets = PackedFloat32Array(0.88448846, 0.9438944)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ejdy0"]
+frequency = 0.9
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_euxk1"]
+noise = SubResource("FastNoiseLite_ejdy0")
+color_ramp = SubResource("Gradient_1qsgc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ssdvb"]
+shader = ExtResource("1_rllwe")
+shader_parameter/rayleigh = 1.0000000475
+shader_parameter/rayleigh_color = Color(0.19668192, 0.48326254, 1, 1)
+shader_parameter/mie = 0.005
+shader_parameter/mie_eccentricity = 0.990000094525
+shader_parameter/mie_color = Color(1, 1, 1, 1)
+shader_parameter/turbidity = 1.0000000475
+shader_parameter/sun_disk_scale = 1.0000000475
+shader_parameter/ground_color = Color(0.03137255, 0.5882353, 1, 1)
+shader_parameter/exposure = 1.0000000475
+shader_parameter/night_sky = SubResource("CurveXYZTexture_ynnux")
+shader_parameter/stars = SubResource("NoiseTexture2D_euxk1")
+
+[sub_resource type="Sky" id="Sky_403h4"]
+sky_material = SubResource("ShaderMaterial_ssdvb")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_403h4")
+ambient_light_sky_contribution = 0.7
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+glow_hdr_threshold = 0.5
+fog_mode = 1
+fog_light_color = Color(0.10309187, 0.62328166, 0.85315627, 1)
+fog_density = 1.0
+fog_sky_affect = 0.8
+fog_depth_curve = 2.4622886
+fog_depth_begin = 90.0
+fog_depth_end = 95.0
+volumetric_fog_length = 256.0
+volumetric_fog_detail_spread = 6.0
+volumetric_fog_sky_affect = 0.0
